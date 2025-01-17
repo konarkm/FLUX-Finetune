@@ -80,7 +80,6 @@ def request_finetuning(
     response.raise_for_status()
     return response.json()
 
-
 def finetune_progress(
     finetune_id,
     api_key=None,
@@ -113,7 +112,6 @@ def finetune_progress(
     response = requests.get(url, headers=headers, params=payload)
     response.raise_for_status()
     return response.json()
-
 
 def store_finetune_id(finetune_comment, finetune_id):
     """
@@ -189,8 +187,11 @@ def main():
             st.warning("No file, no finetune. Upload a .zip first.")
             st.stop()
         
-        # Save the uploaded file to a temporary location
-        temp_zip_path = "temp_finetune_data.zip"
+        # Create "temp" directory if it doesn't exist
+        os.makedirs("temp", exist_ok=True)
+
+        # Save the uploaded file in the "temp" folder
+        temp_zip_path = os.path.join("temp", "finetune_data.zip")
         with open(temp_zip_path, "wb") as temp_zip:
             temp_zip.write(uploaded_file.getbuffer())
 
